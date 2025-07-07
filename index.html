@@ -11,17 +11,41 @@
 </head>
 <body>
     <div class="box weather-box">
-        <div class="general">
-            <h3>City</h3>
-            <h6>mostly ---</h6>
-            <p>40</p>
+
+        <div class="left general-data">
+            <div class="main">
+                <input type="text" id="cityInput" placeholder="Enter a city">
+                <br/>
+                <button id="search">Search</button>
+            </div>
+            <div class="general">
+                <h3 id="city">City</h3>
+                <h4 id="region">Region</h4>
+                <h5 id="country">Country</h5>
+                <br/>
+                <br/>
+                <h6 id="description">mostly ---</h6>
+                <p id="temperature">40</p>
+            </div>
         </div>
-        <div class="predictions">
+
+        <div class="right predictions-data">
             <div class="hourly">
-                <!-- cards -->
+                <div><p>Hourly Forecast</p></div>
+                <div class="hour hourly-data">
+                    <h3>time</h3>
+                    <img src="" alt=""/>
+                    <h3>temp</h3>
+                </div>
             </div>
             <div class="daywise">
-                <!-- cards -->
+                <div><p>15 days forecast</p></div>
+                <div class="day daywise-data">
+                    <p>Date</p>
+                    <img src="" alt=""/>
+                    <h5>maxTemp</h5>
+                    <h5>minTemp</h5>
+                </div>
             </div>
         </div>
     </div>

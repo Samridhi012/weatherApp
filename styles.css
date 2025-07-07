@@ -1,30 +1,67 @@
 body{
     margin: 0;
     padding: 0;
+    background-color: #005792;
     background-image: url("https://www.transparenttextures.com/patterns/clean-textile.png");
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; */
 }
 
 .box{
-    background-color: rgba(108, 227, 236, 0.415);
-    background-image: url("https://img.freepik.com/premium-vector/day-with-clouds-weather-app-screen-mobile-interface-design-forecast-weather-background-time-concept-vector-banner_87946-4137.jpg") ;
+    background-color: #D1F4FA;
+    /* background-image: url("https://img.freepik.com/premium-vector/day-with-clouds-weather-app-screen-mobile-interface-design-forecast-weather-background-time-concept-vector-banner_87946-4137.jpg") ; */
     opacity: 0.7;
-    width: 25% ;
-    height: 600px;
+    width: 60% ;
+    height: 550px;
     position: absolute;
-    top: 8%;
-    left: 37%;
+    top: 4%;
+    left: 19%;
+    margin-top: 60px;
     border-radius: 20px;
     border: 2px solid rgb(0, 0, 0);
     box-shadow: 0px 5px 10px rgba(137, 133, 125, 0.389);
+    display: flex;
+    flex-direction: row;
 }
 
-.box .general{
+.box .left{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 300px;
+    height: 100%;
+    padding: 20px;
+}
+
+.box .left .main{
+    text-align: center;
+    
+    & input{
+        width: 75%;
+        height: 35px;
+        border-radius: 20px;
+        border: 2px solid black;
+        background-color: white ;
+    }
+    & button{
+        width: 30%;
+        height: 30px;
+        margin-top: 20px;
+        border-radius: 20px;
+        border: 2px solid black;
+        background-color: white;
+    }
+}
+
+.box .left .general{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    margin-left: 25%;
+    /* width: 80%; */
+    /* margin-left: 20%; */
+    padding: 30px;
         
     & h3{
         font-size: 35px;
@@ -32,13 +69,21 @@ body{
         margin-bottom: 0;
         font-family: "Tinos", serif;
     }
+    & h4{
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    & h5{
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
     & h6{
-        font-size: 15px;
+        font-size: 25px;
         margin-top: 5px;
         margin-bottom: 0;
     }
     & p{
-        font-size: 45px;
+        font-size: 50px;
         margin-top: 5px;
         margin-bottom: 0;
         font-family: "Libre Caslon Display", serif;
@@ -47,15 +92,22 @@ body{
     }
 }
 
-.box .predictions{
+.box .right{
     display: flex;
     flex-direction: column ;
+    justify-content: space-evenly;
+    margin-left: 40px;
+    border: 2px solid black;
+}
 
-    & .hourly{
-        display: flex;
-    }
-    & .daywise{
-        display: flex;
-    }
-    
+.box .right .hour{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+}
+
+.box .right .day{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
 }
