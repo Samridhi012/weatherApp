@@ -4,9 +4,6 @@
 //To get 7 day weather for US Zipcode 07112: 
 // JSON: http://api.weatherapi.com/v1/forecast.json?key=<YOUR_API_KEY>&q=07112&days=7
 
-// function newPage(){
-//     window.location.href="index.html";
-// }
 
 key = "005186776a4c4589a6e90608250407";
 url ="http://api.weatherapi.com/v1";
@@ -18,6 +15,11 @@ const getRegion = document.getElementById('region');
 const getCountry = document.getElementById('country');
 const getTemperature = document.getElementById('temperature');
 const getDescription = document.getElementById('description');
+
+//default city
+window.onload = () => {
+    fetchWeather("New Delhi");
+}
 
 searchButton.addEventListener('click',() => {
     const location = locationInput.value;
@@ -33,7 +35,7 @@ locationInput.addEventListener('keypress', (event) => {
 
 async function fetchWeather(location){
 
-    // for Current Weather
+    //------------------for Current Weather-------------------------------
     const currentWeatherURL= `${url}/current.json?key=${key}&q=${location}`;
 
     try {
@@ -46,8 +48,31 @@ async function fetchWeather(location){
         console.log("Error fetching data", error);
     }
 
-    //for
-    const forecastURL= `${url}/forecast.json?key=${key}&q=${location}&days=15`;
+
+    //------------------for hourly data----------------------------------
+    const hourNow = new Date().getHours();
+    const hourDisplay = 24 - hourNow;
+    if(hourDisplay == 0){
+        hourDisplay = 24;
+    }
+
+    let i=1;
+    while(i<(hourDisplay+1)){
+        const forecastHourlyURL= `${url}/forecast.json?key=${key}&q=${location}&hour=${hourNow}+${i}`;
+        try {
+            const response = await fetch(forecastHourlyURL);
+            if (response.ok) {
+                const data = await response.json();
+                displayHourlyForecast(data); 
+            }
+        } catch (error) {
+            console.log("Error fetching data", error);
+        }
+        i++;
+    }
+
+    //-----------------------for 10 days data----------------------------
+    const forecastURL= `${url}/forecast.json?key=${key}&q=${location}&days=10`;
 
     try {
         const response = await fetch(forecastURL);
@@ -60,31 +85,84 @@ async function fetchWeather(location){
     }
 }
 
-//GENERAL BOX
+//general data
 function displayWeather(data){
 
     // for Current Weather
     getCity.textContent= data.location.name;
     getRegion.textContent= data.location.region;
     getCountry.textContent= data.location.country;
-    getTemperature.textContent = data.current.temp_c;
+    getTemperature.textContent = `${data.current.temp_c}°C`;
     getDescription.textContent = data.current.condition.text;
 
-    const imageAdd = document.createElement('img');
-    imageAdd.src = data.current.condition.icon;
+    var imageAdd = document.createElement("img");
+    imageAdd.src = `https:${data.current.condition.icon}`;
     imageAdd.alt = data.current.condition.text;
-    getTemperature.appendChild(img);
-
-    //for 
-    
+    getTemperature.appendChild(imageAdd);
 }
 
 //hourly weather data
-function displayHourlyForecast(){
+function displayHourlyForecast(data){
+    // <div class="hData">
+    //     <h3>time</h3>
+    //     <img src="" alt=""/>
+    //     <h3>temp</h3>
+    // </div>
 
+    const hourlyForecastContainer = document.getElementById('hour');
+    hourlyForecastContainer.innerHTML = ''; 
+    const todayHourlyForecast = data.forecast.forecastday[0].hour; //today's hourly data
+
+    const currentHour = new Date(data.location.localtime).getHours();
+
+    todayHourlyForecast.forEach(hourData => {
+        const hour = new Date(hourData.time).getHours();
+    
+        if (hour > currentHour) {
+            const hourlyCard = document.createElement('div');
+            hourlyCard.classList.add('hData-card');
+            hourlyCard.innerHTML = `
+                <p class="time">${hour}</p>
+                <img src="https:${hourData.condition.icon}" alt="${hourData.condition.text}" />
+                <p class="temp">${hourData.temp_c}°C</p>
+            `;
+            hourlyForecastContainer.appendChild(hourlyCard);
+        }
+    });
 }
 
-//Daywise weather
+
+//daywise weather
 function displayDaywiseForecast(data){
-    
+    // <p>Date</p>
+    // <img src="" alt=""/>
+    // <h5>maxTemp</h5>
+    // <h5>minTemp</h5>
+
+
+    const dayWiseForecastContainer = document.getElementById('day');
+    dayWiseForecastContainer.innerHTML = ''; 
+    const forecastCollection = data.forecast.forecastday;
+
+    let chanceOfRain = "";
+   
+    forecastCollection.forEach(forecastData => {
+        const forecastCard = document.createElement('div');
+        forecastCard.classList.add('dayData-card');
+
+        // showing chances of rain or snow
+        if (forecastData.day.daily_will_it_rain != 0) {
+            chanceOfRain = `<p>${forecastData.day.daily_chance_of_rain}%</p>`;
+        } else if (forecastData.day.daily_will_it_snow != 0) {
+            chanceOfRain = `<p>${forecastData.day.daily_chance_of_snow}%</p>`;
+        }
+
+        forecastCard.innerHTML = `
+                <p class="date">${forecastData.date}</p>
+                <img src="https:${forecastData.day.condition.icon}" alt="${forecastData.day.condition.text}" />
+                ${chanceOfRain}
+                <p class="temp">${forecastData.day.maxtemp_c}°C / ${forecastData.day.mintemp_c}°C </p>
+        `;
+        dayWiseForecastContainer.appendChild(forecastCard);
+    });
 }

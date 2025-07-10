@@ -14,7 +14,7 @@
 
         <div class="left general-data">
             <div class="main">
-                <input type="text" id="cityInput" placeholder="Enter a city">
+                <input type="text" id="cityInput" placeholder="Enter a city (by default, New Delhi)">
                 <br/>
                 <button id="search">Search</button>
             </div>
@@ -25,29 +25,26 @@
                 <br/>
                 <br/>
                 <h6 id="description">mostly ---</h6>
-                <p id="temperature">40</p>
+                <p id="temperature">40</p>  
+                <!-- image is added in "p" dynamically -->
             </div>
         </div>
 
         <div class="right predictions-data">
             <div class="hourly">
-                <div><p>Hourly Forecast</p></div>
-                <div class="hour hourly-data">
-                    <h3>time</h3>
-                    <img src="" alt=""/>
-                    <h3>temp</h3>
+                <div><p>Hourly forecast</p></div>
+                <div class="hour" id="hour">
+                    <!-- cards are entered dynamically -->
                 </div>
             </div>
             <div class="daywise">
-                <div><p>15 days forecast</p></div>
-                <div class="day daywise-data">
-                    <p>Date</p>
-                    <img src="" alt=""/>
-                    <h5>maxTemp</h5>
-                    <h5>minTemp</h5>
+                <div><p>10 days forecast</p></div>
+                <div class="day" id="day">
+                    <!-- cards are entered dynamically -->
                 </div>
             </div>
         </div>
+
     </div>
     <script src="./index.js"></script>
 </body>
