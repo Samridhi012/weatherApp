@@ -162,11 +162,6 @@ function displayHourlyForecast(data){
     });
 }
 
-function isClearOrSunny(conditionText) {
-    const lowerCaseText = conditionText.toLowerCase();
-    return lowerCaseText.includes('sunny') || lowerCaseText.includes('clear') || lowerCaseText.includes('sun') ;
-}
-
 //daywise weather
 function displayDaywiseForecast(data){
     // <p>Date</p>
@@ -174,24 +169,13 @@ function displayDaywiseForecast(data){
     // <h5>maxTemp</h5>
     // <h5>minTemp</h5>
 
-
     const dayWiseForecastContainer = document.getElementById('day');
     dayWiseForecastContainer.innerHTML = ''; 
     const forecastCollection = data.forecast.forecastday;
-
-    let chanceOfRain = "";
    
     forecastCollection.forEach(forecastData => {
         const forecastCard = document.createElement('div');
         forecastCard.classList.add('dayData-card');
-
-        // showing chances of rain or snow
-        if (forecastData.day.daily_will_it_rain != 0 && isClearOrSunny(data.current.condition.text)) {
-            chanceOfRain = `<p>${forecastData.day.daily_chance_of_rain}%</p>`;
-        } else if (forecastData.day.daily_will_it_snow != 0 && isClearOrSunny(data.current.condition.text)) {
-            chanceOfRain = `<p>${forecastData.day.daily_chance_of_snow}%</p>`;
-        }
-
         forecastCard.innerHTML = `
                 <p class="date">${forecastData.date}</p>
                 <img src="https:${forecastData.day.condition.icon}" alt="${forecastData.day.condition.text}" />
