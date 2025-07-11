@@ -177,10 +177,9 @@ function displayDaywiseForecast(data){
         const forecastCard = document.createElement('div');
         forecastCard.classList.add('dayData-card');
         forecastCard.innerHTML = `
-                <p class="date">${forecastData.date}</p>
-                <img src="https:${forecastData.day.condition.icon}" alt="${forecastData.day.condition.text}" />
-                ${chanceOfRain}
-                <p class="temp">${forecastData.day.maxtemp_c}°C / ${forecastData.day.mintemp_c}°C </p>
+            <p class="date">${forecastData.date}</p>
+            <img src="https:${forecastData.day.condition.icon}" alt="${forecastData.day.condition.text}" />
+            <p class="temp">${forecastData.day.maxtemp_c}°C / ${forecastData.day.mintemp_c}°C </p>
         `;
         dayWiseForecastContainer.appendChild(forecastCard);
     });
