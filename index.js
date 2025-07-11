@@ -21,6 +21,36 @@ window.onload = () => {
     fetchWeather("New Delhi");
 }
 
+//dynamic background
+function updateBackground(conditionText) {
+    const body = document.body;
+    let imageUrl = '';
+
+    const lowerCaseCondition = conditionText.toLowerCase();
+
+    if (lowerCaseCondition.includes('sunny') || lowerCaseCondition.includes('clear') || lowerCaseCondition.includes('sun')) {
+        imageUrl = 'https://wallpapers.com/images/hd/sunny-day-wallpaper-f21ok5dhnkco3i5n.jpg';
+    } else if (lowerCaseCondition.includes('cloudy') || lowerCaseCondition.includes('overcast') || lowerCaseCondition.includes('mist') || lowerCaseCondition.includes('cloud')) {
+        imageUrl = 'https://pics.freeartbackgrounds.com/midle/Cloudy_Sky_Background-1520.jpg';
+    } else if (lowerCaseCondition.includes('rain') || lowerCaseCondition.includes('drizzle') || lowerCaseCondition.includes('shower') || lowerCaseCondition.includes('rainy')) {
+        imageUrl = 'https://static.vecteezy.com/system/resources/previews/046/982/857/non_2x/monsoon-season-rainy-season-illustration-of-heavy-rain-illustration-of-rain-cloud-vector.jpg';
+    } else if (lowerCaseCondition.includes('snow') || lowerCaseCondition.includes('sleet') || lowerCaseCondition.includes('ice') || lowerCaseCondition.includes('snowy')) {
+        imageUrl = 'https://images.unsplash.com/photo-1542382441-2a6237890635?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+    } else if (lowerCaseCondition.includes('thunder') || lowerCaseCondition.includes('storm') || lowerCaseCondition.includes('thundery') || lowerCaseCondition.includes('stormy')) {
+        imageUrl = 'https://images.unsplash.com/photo-1507663249114-1e523a502626?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+    }else if (lowerCaseCondition.includes('fog') || lowerCaseCondition.includes('foggy') || lowerCaseCondition.includes('dew') || lowerCaseCondition.includes('dewy')) {
+        imageUrl = 'https://unsplash.com/photos/a-foggy-view-of-the-golden-gate-bridge-6tiPnI_ijuI';
+    } else {
+        imageUrl = 'https://www.transparenttextures.com/patterns/clean-textile.png';
+    }
+
+    body.style.backgroundImage = `url('${imageUrl}')`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
+}
+
 searchButton.addEventListener('click',() => {
     const location = locationInput.value;
     if (location){
@@ -42,7 +72,8 @@ async function fetchWeather(location){
         const response = await fetch(currentWeatherURL);
         if (response.ok) {
             const data = await response.json();
-            displayWeather(data); 
+            displayWeather(data);
+            updateBackground(data.current.condition.text);
         }
     } catch (error) {
         console.log("Error fetching data", error);
@@ -131,6 +162,10 @@ function displayHourlyForecast(data){
     });
 }
 
+function isClearOrSunny(conditionText) {
+    const lowerCaseText = conditionText.toLowerCase();
+    return lowerCaseText.includes('sunny') || lowerCaseText.includes('clear') || lowerCaseText.includes('sun') ;
+}
 
 //daywise weather
 function displayDaywiseForecast(data){
@@ -151,9 +186,9 @@ function displayDaywiseForecast(data){
         forecastCard.classList.add('dayData-card');
 
         // showing chances of rain or snow
-        if (forecastData.day.daily_will_it_rain != 0) {
+        if (forecastData.day.daily_will_it_rain != 0 && isClearOrSunny(data.current.condition.text)) {
             chanceOfRain = `<p>${forecastData.day.daily_chance_of_rain}%</p>`;
-        } else if (forecastData.day.daily_will_it_snow != 0) {
+        } else if (forecastData.day.daily_will_it_snow != 0 && isClearOrSunny(data.current.condition.text)) {
             chanceOfRain = `<p>${forecastData.day.daily_chance_of_snow}%</p>`;
         }
 
