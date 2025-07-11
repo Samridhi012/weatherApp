@@ -6,7 +6,7 @@
 
 
 key = "005186776a4c4589a6e90608250407";
-url ="http://api.weatherapi.com/v1";
+url ="https://api.weatherapi.com/v1";
 
 const locationInput = document.getElementById('cityInput');
 const searchButton = document.getElementById('search');   
